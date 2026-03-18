@@ -1,0 +1,4 @@
+-- database: ./database.db
+
+SELECT house_points.south_point, house_points.north_point, house_points.west_point
+FROM house_points;

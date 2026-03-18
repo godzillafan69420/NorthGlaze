@@ -1,0 +1,11 @@
+.three-column{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    height: 500px;
+    gap: 2px;
+}
+
+h2 {
+    text-align: center;
+    font-size: 1000PX;
+}
