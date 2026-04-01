@@ -30,10 +30,22 @@ def close_connection(exception):
 
 @app.route("/")
 def home():
-    sql = """SELECT house_points.south_point, house_points.north_point," 
-    house_points.west_point FROM house_points;"""
-    results = query_db(sql)
-    return render_template("layout.html", house_points=results)
+    points = """
+        SELECT house_points.south_point,
+               house_points.north_point,
+               house_points.west_point
+        FROM house_points;
+    """
+    events = """
+        SELECT events.name,
+                events.date,
+                events.points
+                events.time
+        FROM events;
+"""
+    results = query_db(points, one=True)
+    events_results = query_db(events)
+    return render_template("home.html", house_points=results, list_of_events = events_results)
 
 if __name__ == "__main__":
     app.run(debug=True)

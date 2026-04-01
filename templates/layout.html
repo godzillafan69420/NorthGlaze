@@ -14,24 +14,23 @@
             <a href="/">Home</a>
         </nav>
     </header>
-    {% for house_point in house_points %}
-    {% set south_point = house_point[0] %}
-    {% set north_point = house_point[1] %}
-    {% set west_point = house_point[2] %}
-    {% endfor %}
+   
     <div class = "three-column">
+        
+       
         <div class =" w3-column w3-red">
             <h2>South</h2>
-            <p>{{ south_point }}</p>
+            <p>{{ house_points[0] }}</p>
         </div>
         <div class =" w3-column w3-blue">
             <h2>North</h2>
-            <p>{{ north_point }}</p>
+            <p>{{ house_points[1] }}</p>
         </div>
         <div class =" w3-column w3-yellow">
             <h2>West</h2>
-            <p>{{ west_point }}</p>
+            <p>{{ house_points[2] }}</p>
         </div>
+
     </div>
     {% block content %}
     {% endblock %}
