@@ -7,6 +7,8 @@ DATABASE = 'database.db'
 
 app = Flask(__name__)
 
+
+
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
@@ -35,17 +37,41 @@ def home():
                house_points.north_point,
                house_points.west_point
         FROM house_points;
+
     """
-    events = """
-        SELECT events.name,
-                events.date,
-                events.points
-                events.time
-        FROM events;
-"""
     results = query_db(points, one=True)
-    events_results = query_db(events)
-    return render_template("home.html", house_points=results, list_of_events = events_results)
+    events = """
+        SELECT events.id,
+                events.name,
+               events.points,
+               events.description,
+               events.time
+        FROM events;
+        """
+    events_listed = query_db(events)
+
+    return render_template("home.html",
+                           house_points=results,
+                           event=events_listed)
+
+@app.route("/events/<int:id>")
+def event_detail(id):
+    event_query = """
+        SELECT name, points, description, time
+        FROM events
+        WHERE id = ?;
+    """
+    points = """
+        SELECT house_points.south_point,
+               house_points.north_point,
+               house_points.west_point
+        FROM house_points;
+
+    """
+    event = query_db(event_query, (id,), True)
+    if event is None:
+        return "Event not found", 404
+    return render_template("events_info.html", house_points=points, event=event)
 
 if __name__ == "__main__":
     app.run(debug=True)
