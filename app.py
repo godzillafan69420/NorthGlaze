@@ -1,4 +1,4 @@
-from flask import Flask, g, render_template
+from flask import Flask, g, render_template, session, redirect, url_for, request
 import sqlite3
 
 
@@ -45,7 +45,9 @@ def home():
                 events.name,
                events.points,
                events.description,
-               events.time
+               events.time,
+               events.ended
+
         FROM events;
         """
     events_listed = query_db(events)
@@ -68,10 +70,38 @@ def event_detail(id):
         FROM house_points;
 
     """
+    house_point = query_db(points, one=True)
     event = query_db(event_query, (id,), True)
     if event is None:
         return "Event not found", 404
-    return render_template("events_info.html", house_points=points, event=event)
+    return render_template("events_info.html", house_points=house_point, event=event)
+
+
+@app.route("/edit", methods=['GET', 'POST'])
+def editPage():
+    db = get_db()
+    
+    if request.method == 'POST':
+ 
+        south = request.form.get('south')
+        north = request.form.get('north')
+        west = request.form.get('west')
+        db.execute("""
+            UPDATE house_points 
+            SET south_point = ?, north_point = ?, west_point = ?
+        """, (south, north, west))
+        
+        db.commit()
+        
+        return redirect(url_for('home'))
+
+    points_query = "SELECT south_point, north_point, west_point FROM house_points"
+    results = query_db(points_query, one=True)
+    return render_template("edit_score.html", house_points=results)
+
+@app.route("/add_events")
+def addNewEvent():
+    return render_template("add_events.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
