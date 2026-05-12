@@ -99,9 +99,29 @@ def editPage():
     results = query_db(points_query, one=True)
     return render_template("edit_score.html", house_points=results)
 
-@app.route("/add_events")
+@app.route("/add_events", methods=['GET', 'POST'])
 def addNewEvent():
-    return render_template("add_events.html")
+    points = """
+        SELECT house_points.south_point,
+               house_points.north_point,
+               house_points.west_point
+        FROM house_points;
+
+    """
+    house_point = query_db(points, one=True)
+
+    db=get_db()
+    if request.method =="POST":
+        name = request.form.get('event_name')
+        discription = request.form.get('event_discription')
+        point = request.form.get('event_point')
+        date = request.form.get('event_date')
+        db.execute("""
+        INSERT INTO events (name, description, time, points)
+        VALUES, name = ?, description = ?,time = ?,points = ? """(name, discription, date, point))
+
+    db.commit()
+    return render_template("add_events.html",house_points=house_point)
 
 if __name__ == "__main__":
     app.run(debug=True)

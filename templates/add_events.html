@@ -1,1 +1,16 @@
-{%  %}
+{% extends "layout.html" %}
+
+{% block content %}
+<form>
+    <label>Event name</label>
+    <input type="text" name="event_name">
+    <label>Event discription</label>
+    <input type="text" name="event_discription">
+    <label>Event points</label>
+    <input type="number" name="event_point" min="0" step="1">
+    <label>date</label>
+    <input type="date" name="event_date">
+    <button>add event</button>
+</form>
+
+{% endblock %}
