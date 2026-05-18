@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<form action="{{ url_for('addNewEvent') }}" method="POST">
+<form action="{{ url_for('edit_events') }}" method="POST">
     <label>Event name</label>
-    <input type="text" name="event_name">
+    <input type="text" name="event_name" value="{{ event[0] }}">
     <label>Event discription</label>
 
     <textarea  name="event_discription" cols="40" rows="5"></textarea>

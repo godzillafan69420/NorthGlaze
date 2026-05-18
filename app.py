@@ -101,26 +101,44 @@ def editPage():
 
 @app.route("/add_events", methods=['GET', 'POST'])
 def addNewEvent():
-    points = """
-        SELECT house_points.south_point,
-               house_points.north_point,
-               house_points.west_point
-        FROM house_points;
-
-    """
-    house_point = query_db(points, one=True)
+    points_query = "SELECT south_point, north_point, west_point FROM house_points"
+    
+    house_point = query_db(points_query, one=True)
 
     db=get_db()
     if request.method =="POST":
         name = request.form.get('event_name')
         discription = request.form.get('event_discription')
-        point = request.form.get('event_point')
+        point = int(request.form.get('event_point'))
         date = request.form.get('event_date')
-        db.execute("""
-        INSERT INTO events (name, description, time, points)
-        VALUES, name = ?, description = ?,time = ?,points = ? """(name, discription, date, point))
 
-    db.commit()
+        db.execute("""
+        INSERT INTO events (name, description, time, points, ended)
+        SET (?, ?, ?, ?, ?) """,(name, discription, date, point, 0))
+
+        db.commit()
+        return redirect(url_for('home'))
+    return render_template("add_events.html",house_points=house_point)
+
+
+@app.route("/edit_event/<int:id>" , methods=['GET', 'POST'])
+def edit_events(id):
+    points_query = "SELECT south_point, north_point, west_point FROM house_points"
+
+    house_point = query_db(points_query, one=True)
+    db=get_db()
+    if request.method =="POST":
+        name = request.form.get('event_name')
+        discription = request.form.get('event_discription')
+        point = int(request.form.get('event_point'))
+        date = request.form.get('event_date')
+
+        db.execute("""
+        UPDATE events (name, description, time, points, ended)
+        VALUES (?, ?, ?, ?, ?) """,(name, discription, date, point, 0))
+
+        db.commit()
+        return redirect(url_for('home'))
     return render_template("add_events.html",house_points=house_point)
 
 if __name__ == "__main__":
