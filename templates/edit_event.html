@@ -1,18 +1,20 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<form action="{{ url_for('edit_events') }}" method="POST">
+<form action="{{ url_for('edit_events', id=id) }}" method="POST">
     <label>Event name</label>
-    <input type="text" name="event_name" value="{{ event[0] }}">
+    <input type="text" name="event_name", value="{{ event[1] }}">
     <label>Event discription</label>
 
-    <textarea  name="event_discription" cols="40" rows="5"></textarea>
+    <textarea  name="event_discription" cols="40" rows="5">{{ event[2] }}</textarea>
 
     
     <label>Event points</label>
-    <input type="number" name="event_point" min="0" step="1">
+    <input type="number" name="event_point" min="0" step="1"  , value="{{ event[5] }}">
     <label>date</label>
-    <input type="date" name="event_date">
+    <input type="date" name="event_date" , value="{{ event[3] }}">
+    <label>ended</label>
+    <input type="checkbox" name="ended" , value="{{ event[6] }}">
     <button type="submit">add event</button>
 </form>
 

@@ -11,6 +11,7 @@
               <nav class = "w3-card w3-bar w3-light-grey">
                  <a href="{{ url_for('event_detail', id = list_of_events[0]) }}">{{ list_of_events[1] }}</a>
                  <h2>{{ list_of_events[3] }}</h2>
+                 <a href="{{ url_for('edit_events', id = list_of_events[0]) }}">Edit_event</a>
               </nav>
            
             {% endif %}

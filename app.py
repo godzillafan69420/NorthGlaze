@@ -132,14 +132,19 @@ def edit_events(id):
         discription = request.form.get('event_discription')
         point = int(request.form.get('event_point'))
         date = request.form.get('event_date')
+        ended = 1 if request.form.get('ended') else 0
 
         db.execute("""
-        UPDATE events (name, description, time, points, ended)
-        VALUES (?, ?, ?, ?, ?) """,(name, discription, date, point, 0))
-
+        UPDATE events
+        SET  name = ?, description = ?, time = ?, points = ?, ended= ?
+        WHERE id = ?""",(name, discription, date, point, ended, id))
+        
         db.commit()
+
         return redirect(url_for('home'))
-    return render_template("add_events.html",house_points=house_point)
+    event_query = "SELECT * FROM events WHERE id = ?"
+    event = query_db(event_query, [id], one=True)
+    return render_template("edit_event.html", event=event, house_points=house_point, id = id)
 
 if __name__ == "__main__":
     app.run(debug=True)
