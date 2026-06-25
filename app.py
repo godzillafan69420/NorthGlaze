@@ -72,7 +72,7 @@ def login():
         username = request.form['username']
         password = request.form['password']
         sql = "SELECT * FROM user WHERE username = ?"
-        user = query_db(sql=sql,args=(username,),one=True)
+        user = query_db(sql,args=(username,),one=True)
         if user:
             if check_password_hash(user[2],password):
                 session['user'] = user
@@ -86,6 +86,7 @@ def login():
 
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
+    db = get_db()
     points = """
         SELECT house_points.south_point,
                house_points.north_point,
@@ -98,8 +99,8 @@ def signup():
         username = request.form['username']
         password = request.form['password']
         hashed_password = generate_password_hash(password)
-        sql = "INSERT INTO user (username,password) VALUES (?,?)"
-        query_db(sql,(username,hashed_password))
+        db.execute("INSERT INTO user (username,password) SET (?,?)",(username,hashed_password))
+        db.commit()
         flash("Sign Up Successful")
     return render_template('signup.html' ,
                            house_points=results)
