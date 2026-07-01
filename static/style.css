@@ -41,6 +41,8 @@ a {
     width: 100%;
 }
 
+
+
 nav {
     align-content: center;
     padding: 20px;
@@ -76,4 +78,8 @@ form {
     height: 500px;
     text-align: left;
     ;
+}
+
+.login_stuff {
+    float: right !important; 
 }

@@ -1,14 +1,23 @@
-from flask import Flask, g, render_template, session, redirect, url_for, flash,request
+from flask import Flask, g, render_template, session, redirect, url_for, flash, request
 import sqlite3
-
+from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
 
 DATABASE = 'database.db'
 
-
 app = Flask(__name__)
-
 app.config['SECRET_KEY'] = "MyReallySecretKey"
+
+
+# creates a login required area
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user' not in session: 
+            flash("You need to be logged in to view this page.")
+            return redirect(url_for('login')) 
+        return f(*args, **kwargs)
+    return decorated_function
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -29,8 +38,6 @@ def close_connection(exception):
         db.close()
 
 
-
-
 @app.route("/")
 def home():
     points = """
@@ -38,101 +45,91 @@ def home():
                house_points.north_point,
                house_points.west_point
         FROM house_points;
-
     """
     results = query_db(points, one=True)
     events = """
         SELECT events.id,
-                events.name,
+               events.name,
                events.points,
                events.description,
                events.time,
                events.ended
-
         FROM events;
-        """
+    """
     events_listed = query_db(events)
 
-    return render_template("home.html",
-                           house_points=results,
-                           event=events_listed)
+    return render_template("home.html", house_points=results, event=events_listed)
 
 
 @app.route('/login', methods=["GET","POST"])
 def login():
-    points = """
-        SELECT house_points.south_point,
-               house_points.north_point,
-               house_points.west_point
-        FROM house_points;
-
-    """
+    points = "SELECT south_point, north_point, west_point FROM house_points"
     results = query_db(points, one=True)
+    
     if request.method == "POST":
         username = request.form['username']
         password = request.form['password']
+        
         sql = "SELECT * FROM user WHERE username = ?"
-        user = query_db(sql,args=(username,),one=True)
+        user = query_db(sql, args=(username,), one=True)
+        
         if user:
-            if check_password_hash(user[2],password):
-                session['user'] = user
+            if check_password_hash(user[2], password):
+                session['user'] = {
+                    'id': user[0],
+                    'username': user[1]
+                }
                 flash("Logged in successfully")
+                return redirect(url_for('home'))
             else:
-                flash("Password incorrect")
+                flash("Incorrect password")
         else:
             flash("Username does not exist")
+            
     return render_template('login.html', house_points=results)
 
 
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
     db = get_db()
-    points = """
-        SELECT house_points.south_point,
-               house_points.north_point,
-               house_points.west_point
-        FROM house_points;
-
-    """
+    points = "SELECT south_point, north_point, west_point FROM house_points"
     results = query_db(points, one=True)
+    
     if request.method == "POST":
         username = request.form['username']
         password = request.form['password']
-        hashed_password = generate_password_hash(password)
-        db.execute("INSERT INTO user (username,password) SET (?,?)",(username,hashed_password))
-        db.commit()
-        flash("Sign Up Successful")
-    return render_template('signup.html' ,
-                           house_points=results)
+        
+        existing_user = query_db("SELECT * FROM user WHERE username = ?", (username,), one=True)
+        if existing_user:
+            flash("Username already taken!")
+        else:
+            hashed_password = generate_password_hash(password)
+            db.execute("INSERT INTO user (username, password) VALUES (?, ?)", (username, hashed_password))
+            db.commit()
+            flash("Sign Up Successful!")
+            return redirect(url_for('login'))
+            
+    return render_template('signup.html', house_points=results)
 
 
 @app.route("/events/<int:id>")
 def event_detail(id):
-    event_query = """
-        SELECT name, points, description, time
-        FROM events
-        WHERE id = ?;
-    """
-    points = """
-        SELECT house_points.south_point,
-               house_points.north_point,
-               house_points.west_point
-        FROM house_points;
-
-    """
+    event_query = "SELECT name, points, description, time FROM events WHERE id = ?;"
+    points = "SELECT south_point, north_point, west_point FROM house_points"
+    
     house_point = query_db(points, one=True)
     event = query_db(event_query, (id,), True)
+    
     if event is None:
         return "Event not found", 404
     return render_template("events_info.html", house_points=house_point, event=event)
 
 
 @app.route("/edit", methods=['GET', 'POST'])
+@login_required
 def editPage():
     db = get_db()
-    
     if request.method == 'POST':
- 
         south = request.form.get('south')
         north = request.form.get('north')
         west = request.form.get('west')
@@ -140,61 +137,71 @@ def editPage():
             UPDATE house_points 
             SET south_point = ?, north_point = ?, west_point = ?
         """, (south, north, west))
-        
         db.commit()
-        
         return redirect(url_for('home'))
 
     points_query = "SELECT south_point, north_point, west_point FROM house_points"
     results = query_db(points_query, one=True)
     return render_template("edit_score.html", house_points=results)
 
+
 @app.route("/add_events", methods=['GET', 'POST'])
+@login_required
 def addNewEvent():
     points_query = "SELECT south_point, north_point, west_point FROM house_points"
-    
     house_point = query_db(points_query, one=True)
 
-    db=get_db()
-    if request.method =="POST":
+    db = get_db()
+    if request.method == "POST":
         name = request.form.get('event_name')
-        discription = request.form.get('event_discription')
+        description = request.form.get('event_discription') # Fixed spelling target
         point = int(request.form.get('event_point'))
         date = request.form.get('event_date')
 
+        # FIX: Changed SET to VALUES syntax
         db.execute("""
-        INSERT INTO events (name, description, time, points, ended)
-        SET (?, ?, ?, ?, ?) """,(name, discription, date, point, 0))
+            INSERT INTO events (name, description, time, points, ended)
+            VALUES (?, ?, ?, ?, ?) 
+        """, (name, description, date, point, 0))
 
         db.commit()
         return redirect(url_for('home'))
-    return render_template("add_events.html",house_points=house_point)
+        
+    return render_template("add_events.html", house_points=house_point)
 
 
-@app.route("/edit_event/<int:id>" , methods=['GET', 'POST'])
+@app.route("/edit_event/<int:id>", methods=['GET', 'POST'])
+@login_required
 def edit_events(id):
     points_query = "SELECT south_point, north_point, west_point FROM house_points"
-
     house_point = query_db(points_query, one=True)
-    db=get_db()
-    if request.method =="POST":
+    db = get_db()
+    
+    if request.method == "POST":
         name = request.form.get('event_name')
-        discription = request.form.get('event_discription')
+        description = request.form.get('event_discription')
         point = int(request.form.get('event_point'))
         date = request.form.get('event_date')
         ended = 1 if request.form.get('ended') else 0
 
         db.execute("""
-        UPDATE events
-        SET  name = ?, description = ?, time = ?, points = ?, ended= ?
-        WHERE id = ?""",(name, discription, date, point, ended, id))
-        
+            UPDATE events
+            SET name = ?, description = ?, time = ?, points = ?, ended = ?
+            WHERE id = ?
+        """, (name, description, date, point, ended, id))
         db.commit()
-
         return redirect(url_for('home'))
+        
     event_query = "SELECT * FROM events WHERE id = ?"
     event = query_db(event_query, [id], one=True)
-    return render_template("edit_event.html", event=event, house_points=house_point, id = id)
+    return render_template("edit_event.html", event=event, house_points=house_point, id=id)
+
+#Add a logout route to test session clearing
+@app.route('/logout')
+def logout():
+    session.pop('user', None)
+    flash("Logged out successfully")
+    return redirect(url_for('home'))
 
 if __name__ == "__main__":
     app.run(debug=True)
