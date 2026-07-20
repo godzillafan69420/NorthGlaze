@@ -14,9 +14,10 @@
             <a href="/" class="w3-bar-item w3-button">Home</a>
             <a href="/edit" class="w3-bar-item w3-button">Edit Score</a>
             <a href="/add_events" class="w3-bar-item w3-button">Add event</a>
-            
-            <a href="/login" class="w3-bar-item w3-button w3-right login_stuff">Login</a>
-            <a href="/signup" class="w3-bar-item w3-button w3-right login_stuff">Sign Up</a>
+            {% if session['user']["id"] == None %}
+                <a href="/login" class="w3-bar-item w3-button w3-right login_stuff">Login</a>
+                <a href="/signup" class="w3-bar-item w3-button w3-right login_stuff">Sign Up</a>
+            {% endif %}
         </nav>
     </header>
    
