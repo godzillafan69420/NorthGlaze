@@ -7,12 +7,12 @@
 }
 
 body {
-    background-color: rgb(231, 217, 217);
+    background-color: rgb(116, 99, 99);
 }
 
 h1 {
     text-align: center;
-    size: 50px;
+    font-size: 1000px;
 }
 
 p {
@@ -62,16 +62,16 @@ input {
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #ccc;
-    font-size: 16px;
+    font-size: 20px;
 }
 
 form {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Fixes the 'left' alignment bug */
+    align-items: flex-start; 
     gap: 10px;
-    width: 100%; /* Ensures the form takes up the expected space */
-    max-width: 400px; /* Optional: Prevents inputs from stretching too wide on desktop */
+    width: 100%; 
+    max-width: 400px; 
 }
 
 #discription_editor {
