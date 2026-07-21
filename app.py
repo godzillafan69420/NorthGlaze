@@ -19,17 +19,21 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+# data base getter
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
         db = g._database = sqlite3.connect(DATABASE)
     return db
 
+# quering database
 def query_db(query, args=(), one=False):
     cur = get_db().execute(query, args)
     rv = cur.fetchall()
     cur.close()
     return (rv[0] if rv else None) if one else rv
+
+# clean up database connection
 
 @app.teardown_appcontext
 def close_connection(exception):

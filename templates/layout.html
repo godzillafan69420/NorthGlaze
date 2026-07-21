@@ -14,7 +14,13 @@
             <a href="/" class="w3-bar-item w3-button">Home</a>
             <a href="/edit" class="w3-bar-item w3-button">Edit Score</a>
             <a href="/add_events" class="w3-bar-item w3-button">Add event</a>
-            {% if session['user']["id"] == None %}
+
+            
+                
+            {% if 'user' in session %}
+                <a class="w3-bar-item w3-button w3-right login_stuff">welcome {{ session.get('user').get('username') }} </a>
+                <a href="/logout" class="w3-bar-item w3-button w3-right login_stuff">Logout</a>
+            {% else %}
                 <a href="/login" class="w3-bar-item w3-button w3-right login_stuff">Login</a>
                 <a href="/signup" class="w3-bar-item w3-button w3-right login_stuff">Sign Up</a>
             {% endif %}
