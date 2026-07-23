@@ -7,7 +7,7 @@
 }
 
 body {
-    background-color: rgb(116, 99, 99);
+    background-color: rgb(226, 226, 226);
 }
 
 h1 {
@@ -21,7 +21,7 @@ p {
 }
 
 .card {
-    background-color: #f1f1f1;
+    color: #004B23;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -30,6 +30,7 @@ p {
 }
 
 .row {
+    background-color: #004B23;
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
