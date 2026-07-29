@@ -3,6 +3,7 @@
     grid-template-columns: 1fr 1fr 1fr;
     height: 200px;
     gap: 2px;
+    border-radius: 67px;
     
 }
 
@@ -15,13 +16,19 @@ h1 {
     font-size: 1000px;
 }
 
+h2 {
+    text-align: center;
+    font-size: 1000px;
+    color:rgb(226, 226, 226);
+}
+
 p {
     text-align: center;
     font-size: 25px;
 }
 
 .card {
-    color: #004B23;
+    background-color: #004B23;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -29,12 +36,29 @@ p {
     
 }
 
+.row > * {
+    background-color: #f9f9f9;
+    color: #333333;
+    
+}
+
 .row {
-    background-color: #004B23;
+    background-color: #13884a;
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     border-radius: 7px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: rgb(226, 226, 226);
+    margin-bottom: 20px;
+    
+}
+
+nav a.w3-card {
+    background-color:  #dae2de !important; 
+    color: #004B23 !important;
+    gap: 20px;
+    
 }
 
 a {
@@ -42,9 +66,15 @@ a {
     width: 100%;
 }
 
-
+nav a.w3-button {
+    background-color:  #dae2de !important; 
+    color: #004B23 !important;
+    gap: 20px;
+    padding: auto;
+}
 
 nav {
+    background-color: #004B23;
     align-content: center;
     padding: 20px;
     border-radius: 5px;
@@ -52,7 +82,7 @@ nav {
 }
 
 a {
-    
+    border-radius: 10000px; 
     text-decoration: none;
     color: black;
     font-size: 30px;
@@ -78,7 +108,7 @@ form {
 #discription_editor {
     height: 500px;
     text-align: left;
-    ;
+
 }
 
 .login_stuff {
