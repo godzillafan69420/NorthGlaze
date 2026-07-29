@@ -13,7 +13,7 @@ body {
 
 h1 {
     text-align: center;
-    font-size: 1000px;
+    font-size: 50px !important; /* Try this first to test! */
 }
 
 h2 {
@@ -40,6 +40,13 @@ p {
     background-color: #f9f9f9;
     color: #333333;
     
+}
+
+button {
+    background-color:  #dae2de !important; 
+    color: #004B23 !important;
+    gap: 20px;
+    padding: auto;
 }
 
 .row {
