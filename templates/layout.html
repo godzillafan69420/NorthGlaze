@@ -7,44 +7,45 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
     <title>House points</title>
 </head>
-<body class="w3-container">
-    <h1>House Points</h1>
-    <header class = "w3-container w3-padding-32">
-        
-        <nav class="w3-bar">
-            <a href="/" class="w3-bar-item w3-button">Home</a>
-            <a href="/edit" class="w3-bar-item w3-button">Edit Score</a>
-            <a href="/add_events" class="w3-bar-item w3-button">Add event</a>
+<body class="app-shell">
+    <div class="page-wrapper">
+        <header class="topbar">
+            <div class="brand-block">
+                <p class="eyebrow">NorthGlaze</p>
+                <h1>House Points</h1>
+            </div>
 
-            
-                
-            {% if 'user' in session %}
-                <a class="w3-bar-item w3-button w3-right login_stuff">{{ session.get('user').get('username') }} </a>
-                <a href="/logout" class="w3-bar-item w3-button w3-right login_stuff">Logout</a>
-            {% else %}
-                <a href="/login" class="w3-bar-item w3-button w3-right login_stuff">Login</a>
-            {% endif %}
-        </nav>
-    </header>
-   
-    <div class = "three-column">
-        
-       
-        <div class =" w3-column w3-red">
-            <h1>South</h1>
-            <p>{{ house_points[0] }}</p>
-        </div>
-        <div class =" w3-column w3-blue">
-            <h1>North</h1>
-            <p>{{ house_points[1] }}</p>
-        </div>
-        <div class =" w3-column w3-yellow">
-            <h1>West</h1>
-            <p>{{ house_points[2] }}</p>
-        </div>
+            <nav class="main-nav">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/edit" class="nav-link">Edit Score</a>
+                <a href="/add_events" class="nav-link">Add Event</a>
 
+                {% if 'user' in session %}
+                    <a class="nav-link user-pill">{{ session.get('user').get('username') }}</a>
+                    <a href="/logout" class="nav-link">Logout</a>
+                {% else %}
+                    <a href="/login" class="nav-link login-link">Login</a>
+                {% endif %}
+            </nav>
+        </header>
+
+        <section class="three-column" aria-label="House scores">
+            <div class="house-card south-card">
+                <h2>South</h2>
+                <p class="score-value">{{ house_points[0] }}</p>
+            </div>
+            <div class="house-card north-card">
+                <h2>North</h2>
+                <p class="score-value">{{ house_points[1] }}</p>
+            </div>
+            <div class="house-card west-card">
+                <h2>West</h2>
+                <p class="score-value">{{ house_points[2] }}</p>
+            </div>
+        </section>
+
+        {% block content %}
+        {% endblock %}
     </div>
-    {% block content %}
-    {% endblock %}
 </body>
 </html>

@@ -1,123 +1,269 @@
-.three-column{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    height: 200px;
-    gap: 2px;
-    border-radius: 67px;
-    
-}
-
 body {
-    background-color: rgb(226, 226, 226);
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg, #f5f7fb 0%, #e8f0ea 100%);
+    color: #173124;
 }
 
-h1 {
-    text-align: center;
-    font-size: 50px !important; /* Try this first to test! */
+.app-shell {
+    min-height: 100vh;
+    padding: 24px;
 }
 
-h2 {
-    text-align: center;
-    font-size: 1000px;
-    color:rgb(226, 226, 226);
+.page-wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
 }
 
-p {
-    text-align: center;
-    font-size: 25px;
+.topbar {
+    background:  #1d7a45;
+    color: white;
+    padding: 28px;
+    border-radius: 24px;
+    box-shadow: 0 16px 40px rgba(15, 77, 43, 0.2);
+    margin-bottom: 24px;
 }
 
-.card {
-    background-color: #004B23;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    align-content: center;
-    
+.brand-block h1 {
+    margin: 0;
+    font-size: 2.3rem;
+    text-align: left;
 }
 
-.row > * {
-    background-color: #f9f9f9;
-    color: #333333;
-    
+.eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    font-size: 0.8rem;
+    margin: 0 0 6px;
+    opacity: 0.8;
 }
 
-button {
-    background-color:  #dae2de !important; 
-    color: #004B23 !important;
-    gap: 20px;
-    padding: auto;
+.brand-subtitle {
+    margin: 8px 0 0;
+    font-size: 1rem;
+    opacity: 0.9;
 }
 
-.row {
-    background-color: #13884a;
+.main-nav {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
-    border-radius: 7px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    color: rgb(226, 226, 226);
-    margin-bottom: 20px;
-    
+    gap: 10px;
+    margin-top: 20px;
 }
 
-nav a.w3-card {
-    background-color:  #dae2de !important; 
-    color: #004B23 !important;
-    gap: 20px;
-    
-}
-
-a {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 100%;
-}
-
-nav a.w3-button {
-    background-color:  #dae2de !important; 
-    color: #004B23 !important;
-    gap: 20px;
-    padding: auto;
-}
-
-nav {
-    background-color: #004B23;
-    align-content: center;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-a {
-    border-radius: 10000px; 
+.nav-link {
     text-decoration: none;
-    color: black;
-    font-size: 30px;
+    color: white;
+    background: rgba(255, 255, 255, 0.16);
+    padding: 10px 14px;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    box-shadow: none;
+    transition: background 0.2s ease;
+}
+
+.nav-link:hover {
+    background: rgba(255, 255, 255, 0.28);
+}
+
+.user-pill {
+    background: rgba(255, 255, 255, 0.24);
+    font-weight: 600;
+}
+
+.login-link {
+    margin-left: auto;
+}
+
+.three-column {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.house-card {
+    border-radius: 20px;
+    padding: 24px;
+    color: white;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
+
+.house-card h2 {
+    margin: 0 0 8px;
+    font-size: 1.4rem;
+    text-align: left;
+    color: white;
+}
+
+.score-value {
+    margin: 0;
+    font-size: 2.2rem;
+    font-weight: 700;
+    text-align: left;
+}
+
+.south-card {
+     background: #e74d3d
+}
+.north-card { 
+    background: #2e7bd1
+}
+.west-card { 
+    background:  #d8b221
+}
+
+.content-panel {
+    background: white;
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+}
+
+.section-heading h2 {
+    margin: 0 0 6px;
+    font-size: 1.6rem;
+    color: #173124;
+    text-align: left;
+}
+
+.section-heading p {
+    margin: 0 0 18px;
+    color: #5b6d63;
+    font-size: 1rem;
+    text-align: left;
+}
+
+.search_bar {
+    margin-bottom: 20px;
+}
+
+.search-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 520px;
+}
+
+.search-form label {
+    font-weight: 600;
+    color: #173124;
+}
+
+.search-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
 }
 
 input {
-    text-align: center;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 20px;
+    flex: 1 1 240px;
+    padding: 12px 14px;
+    border-radius: 999px;
+    border: 1px solid #d9e2dc;
+    font-size: 1rem;
+    outline: none;
 }
 
-form {
+button,
+.action-link,
+.clear-link {
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 0.95rem;
+    padding: 10px 14px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: none;
+}
+
+button {
+    background: #1d7a45;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover,
+.action-link:hover,
+.clear-link:hover {
+    transform: translateY(-1px);
+}
+
+.clear-link {
+    color: #1d7a45;
+    background: #eef7f1;
+}
+
+.event-list {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; 
-    gap: 10px;
-    width: 100%; 
-    max-width: 400px; 
+    gap: 12px;
+}
+
+.event-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 18px;
+    border: 1px solid #e6ece8;
+    border-radius: 16px;
+    background: #fbfdfc;
+}
+
+.event-details h3 {
+    margin: 0 0 4px;
+    font-size: 1.1rem;
+    color: #173124;
+}
+
+.event-details p {
+    margin: 0;
+    color: #5b6d63;
+    text-align: left;
+}
+
+.event-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.action-link {
+    background: #eef7f1;
+    color: #1d7a45;
+}
+
+.action-link.secondary {
+    background: #f4f7fb;
+    color: #34516b;
+}
+
+.empty-state {
+    padding: 20px;
+    text-align: center;
+    color: #5b6d63;
+    background: #f8fbf9;
+    border-radius: 16px;
 }
 
 #discription_editor {
     height: 500px;
     text-align: left;
-
 }
 
-.login_stuff {
-    float: right !important; 
+@media (max-width: 760px) {
+    .three-column {
+        grid-template-columns: 1fr;
+    }
+
+    .event-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .login-link {
+        margin-left: 0;
+    }
 }
