@@ -23,6 +23,7 @@
                 {% if 'user' in session %}
                     <a class="nav-link user-pill">{{ session.get('user').get('username') }}</a>
                     <a href="/logout" class="nav-link">Logout</a>
+                    <a href="/change_password" class="nav-link">Change Password</a>
                 {% else %}
                     <a href="/login" class="nav-link login-link">Login</a>
                 {% endif %}

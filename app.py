@@ -111,6 +111,35 @@ def login():
             
     return render_template('login.html', house_points=results) # render the login site
 
+# password change page
+@app.route('/change_password', methods=["GET","POST"])
+@login_required
+def change_password():
+    # query the points
+    points = "SELECT south_point, north_point, west_point FROM house_points"
+    results = query_db(points, one=True)
+    # getting the data from the form
+    if request.method == "POST":
+        username = request.form['username'] # get the username
+        password = request.form['password']# get the password
+        comfirmed_password = request.form['confirm_password']# get the comfirmed password
+        
+        sql = "SELECT * FROM user WHERE username = ?"
+        user = query_db(sql, args=(username,), one=True) # get database of user and find the user
+        
+        if user: # if there is a user
+            if check_password_hash(user[2], password): # check the password to the database
+                db = get_db()
+                db.execute("UPDATE user SET password = ? WHERE username = ?", (generate_password_hash(comfirmed_password), username))
+                db.commit()
+                flash("password changed successfully")
+                return redirect(url_for('home')) # return them back home
+            else:
+                flash("Incorrect password") # tell them they typed the wrong password
+        else:
+            flash("Username does not exist") # tell them the username doesn't exist 
+            
+    return render_template('login.html', house_points=results) # render the login site
 
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
@@ -199,6 +228,7 @@ def addNewEvent():
         return redirect(url_for('home'))
         
     return render_template("add_events.html", house_points=house_point)
+
 
 
 # Edditing events
