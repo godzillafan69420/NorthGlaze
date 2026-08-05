@@ -24,6 +24,7 @@ def get_db():
     db = getattr(g, '_database', None)
     if db is None:
         db = g._database = sqlite3.connect(DATABASE)
+        db.execute("PRAGMA foreign_keys = ON")
     return db
 
 # quering database
@@ -255,12 +256,26 @@ def addNewEvent():
         description = request.form.get('event_discription') 
         point = int(request.form.get('event_point'))
         date = request.form.get('event_date')
-
+        # connecting the tables
+        house_row = query_db("SELECT id FROM house_points LIMIT 1", one=True)
+        user_id = session['user']['id']
+        house_id = house_row[0] if house_row else None
         # adding things to the data base
+        
+       
+
         db.execute("""
-            INSERT INTO events (name, description, time, points, ended)
-            VALUES (?, ?, ?, ?, ?) 
-        """, (name, description, date, point, 0))
+            INSERT INTO events (
+                name,
+                description,
+                time,
+                points,
+                ended,
+                house_id,
+                user_id
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        """, (name, description, date, point, 0, house_id, user_id))
 
         db.commit()
         return redirect(url_for('home'))
