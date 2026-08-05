@@ -10,11 +10,11 @@
 
     
     <label>Event points</label>
-    <input type="number" name="event_point" min="0" step="1"  , value="{{ event[5] }}" class="inputers">
+    <input type="number" name="event_point" min="0" step="1"  value="{{ event[5] }}" class="inputers">
     <label>date</label>
-    <input type="date" name="event_date" , value="{{ event[3] }}" class="inputers">
+    <input type="date" name="event_date" value="{{ event[3] }}" class="inputers">
     <label>ended</label>
-    <input type="checkbox" name="ended" , value="{{ event[6] }}" class="inputers">
+    <input type="checkbox" name="ended" value="true" class="inputers" {% if event[6] == 1 %}checked{% endif %}>
     <button type="submit">Save Changes</button>
 </form>
 

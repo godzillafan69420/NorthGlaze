@@ -4,7 +4,7 @@
 <div class="content-panel">
   <div class="section-heading">
     <h2>Events</h2>
-    <p>Browse upcoming activities.</p>
+    <p>Looking for incoming events for the division?</p>
   </div>
 
   <div class="search_bar">
@@ -28,7 +28,7 @@
 
   <div class="event-list">
     {% for list_of_events in event %}
-      {% if list_of_events[5] == 0 %}
+      {% if list_of_events[5] == 0 %} 
         <article class="event-card">
           <div class="event-details">
             <h3>{{ list_of_events[1] }}</h3>

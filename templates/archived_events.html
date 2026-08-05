@@ -3,24 +3,24 @@
 {% block content %}
 <div class="content-panel">
   <div class="section-heading">
-    <h2>Events</h2>
-    <p>Browse upcoming activities.</p>
+    <h2>Past Events</h2>
+    <p>Looking for previous events?</p>
   </div>
 
   <div class="search_bar">
-    <form action="{{ url_for('home') }}" method="GET" class="search-form">
-      <label for="search">Search Event</label>
+    <form action="{{ url_for('archived') }}" method="GET" class="search-form">
+      <label for="search">Search Archived Events</label>
       <div class="search-row">
         <input
           type="text"
           id="search"
           name="search"
           value="{{ search_query if search_query }}"
-          placeholder="Search events..."
+          placeholder="Search Archived Events..."
         >
         <button type="submit">Search</button>
         {% if search_query %}
-          <a href="{{ url_for('home') }}" class="clear-link">Clear</a>
+          <a href="{{ url_for('archived') }}" class="clear-link">Clear</a>
         {% endif %}
       </div>
     </form>
@@ -28,7 +28,7 @@
 
   <div class="event-list">
     {% for list_of_events in event %}
-      {% if list_of_events[5] == 0 %}
+      {% if list_of_events[5] == 1 %}
         <article class="event-card">
           <div class="event-details">
             <h3>{{ list_of_events[1] }}</h3>

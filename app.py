@@ -45,7 +45,7 @@ def close_connection(exception):
 # main page
 @app.route("/", methods=["GET"])
 def home():
-    # 1. Fetch house points
+    # fetch house points
     points_query = """
         SELECT south_point, north_point, west_point
         FROM house_points
@@ -55,17 +55,17 @@ def home():
     if house_points is None:
         house_points = {"south_point": 0, "north_point": 0, "west_point": 0}
 
-    # 2. Get search parameter from URL (e.g. /?search=sports)
+    # get search parameter from url 
     search_query = request.args.get("search", "").strip()
 
-    # 3. Build SQL for events with optional filtering
+    # build sql for events with optional filtering
     if search_query:
         events_sql = """
             SELECT id, name, points, description, time, ended
             FROM events
             WHERE name LIKE ? OR description LIKE ?;
         """
-        # Pass wildcards % for SQL substring matching
+        # pass wildcards % for SQL substring matching
         param = f"%{search_query}%"
         events_listed = query_db(events_sql, (param, param))
     else:
@@ -82,6 +82,44 @@ def home():
         search_query=search_query
     )
 
+# archieved events that you previously removed
+@app.route("/archived", methods=["GET"])
+def archived():
+    #very similar to the home page but instead we're searching for archived events
+    points_query = """
+        SELECT south_point, north_point, west_point
+        FROM house_points
+        LIMIT 1;
+    """
+    house_points = query_db(points_query, one=True)
+    if house_points is None:
+        house_points = {"south_point": 0, "north_point": 0, "west_point": 0}
+
+
+    search_query = request.args.get("search", "").strip()
+
+
+    if search_query:
+        events_sql = """
+            SELECT id, name, points, description, time, ended
+            FROM events
+            WHERE name LIKE ? OR description LIKE ?;
+        """
+        param = f"%{search_query}%"
+        events_listed = query_db(events_sql, (param, param))
+    else:
+        events_sql = """
+            SELECT id, name, points, description, time, ended
+            FROM events;
+        """
+        events_listed = query_db(events_sql)
+
+    return render_template(
+        "archived_events.html",
+        house_points=house_points,
+        event=events_listed,
+        search_query=search_query
+    )
 # login page
 @app.route('/login', methods=["GET","POST"])
 def login():
