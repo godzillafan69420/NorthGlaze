@@ -3,19 +3,19 @@
 {% block content %}
 <form action="{{ url_for('edit_events', id=id) }}" method="POST">
     <label>Event name</label>
-    <input type="text" name="event_name", value="{{ event[1] }}">
+    <input type="text" name="event_name", value="{{ event[1] }}" class="inputers">
     <label>Event discription</label>
 
-    <textarea  name="event_discription" cols="40" rows="5" maxlength="250">{{ event[2] }}</textarea>
+    <textarea  name="event_discription" cols="40" rows="5" maxlength="250" class="inputers">{{ event[2] }}</textarea>
 
     
     <label>Event points</label>
-    <input type="number" name="event_point" min="0" step="1"  , value="{{ event[5] }}">
+    <input type="number" name="event_point" min="0" step="1"  , value="{{ event[5] }}" class="inputers">
     <label>date</label>
-    <input type="date" name="event_date" , value="{{ event[3] }}">
+    <input type="date" name="event_date" , value="{{ event[3] }}" class="inputers">
     <label>ended</label>
-    <input type="checkbox" name="ended" , value="{{ event[6] }}">
-    <button type="submit">add event</button>
+    <input type="checkbox" name="ended" , value="{{ event[6] }}" class="inputers">
+    <button type="submit">Save Changes</button>
 </form>
 
 {% endblock %}

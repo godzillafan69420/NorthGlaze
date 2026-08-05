@@ -4,17 +4,17 @@
 <form action="{{ url_for('addNewEvent') }}" method="POST">
     
     <label>Event name:</label>
-    <input type="text" name="event_name" maxlength="100">
+    <input type="text" name="event_name" maxlength="100" class="inputers">
     <label>Event discription:</label>
 
-    <textarea  name="event_discription" cols="40" rows="5" maxlength="250"></textarea>
+    <textarea  name="event_discription" cols="40" rows="5" maxlength="250" class="inputers"></textarea>
 
     
     <label>Event points:</label>
-    <input type="number" name="event_point" min="0" step="1">
+    <input type="number" name="event_point" min="0" step="1" class="inputers">
     <label>date:</label>
-    <input type="date" name="event_date">
-    <button type="submit">add event</button>
+    <input type="date" name="event_date" class="inputers">
+    <button type="submit">Add Event</button>
 </form>
 
 {% endblock %}

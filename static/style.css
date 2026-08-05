@@ -144,11 +144,12 @@ body {
     max-width: 520px;
 }
 
-.form {
+.inputers {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
+
 .search-form label {
     font-weight: 600;
     color: #173124;

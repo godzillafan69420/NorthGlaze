@@ -122,7 +122,7 @@ def change_password():
     if request.method == "POST":
         username = request.form['username'] # get the username
         password = request.form['password']# get the password
-        comfirmed_password = request.form['confirm_password']# get the comfirmed password
+        new_password = request.form['new_password']# get the comfirmed password
         
         sql = "SELECT * FROM user WHERE username = ?"
         user = query_db(sql, args=(username,), one=True) # get database of user and find the user
@@ -130,7 +130,7 @@ def change_password():
         if user: # if there is a user
             if check_password_hash(user[2], password): # check the password to the database
                 db = get_db()
-                db.execute("UPDATE user SET password = ? WHERE username = ?", (generate_password_hash(comfirmed_password), username))
+                db.execute("UPDATE user SET password = ? WHERE username = ?", (generate_password_hash(new_password), username)) #updates the password
                 db.commit()
                 flash("password changed successfully")
                 return redirect(url_for('home')) # return them back home
@@ -139,7 +139,7 @@ def change_password():
         else:
             flash("Username does not exist") # tell them the username doesn't exist 
             
-    return render_template('login.html', house_points=results) # render the login site
+    return render_template('password_change.html', house_points=results) # render the change password site
 
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
