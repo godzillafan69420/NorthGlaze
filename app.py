@@ -260,10 +260,10 @@ def addNewEvent():
         house_row = query_db("SELECT id FROM house_points LIMIT 1", one=True)
         user_id = session['user']['id']
         house_id = house_row[0] if house_row else None
-        # adding things to the data base
         
-       
-
+        
+        
+        # adding things to the data base
         db.execute("""
             INSERT INTO events (
                 name,
