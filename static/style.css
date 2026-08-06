@@ -14,11 +14,18 @@ body {
     margin: 0 auto;
 }
 
+
+p {
+    margin: 0;
+    font-size: 20px;
+    text-align: left;
+}
+
 .topbar {
     background:  #1d7a45;
     color: white;
     padding: 28px;
-    border-radius: 24px;
+    border-radius: 6px;
     box-shadow: 0 16px 40px rgba(15, 77, 43, 0.2);
     margin-bottom: 24px;
 }
@@ -68,12 +75,17 @@ body {
 .user-pill {
     background: rgba(255, 255, 255, 0.24);
     font-weight: 600;
+    margin-left: auto;
 }
 
 .login-link {
     margin-left: auto;
 }
-
+h3 {
+    margin: 0;
+    font-size: 30px;
+    text-align: left;
+}
 .three-column {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -213,13 +225,13 @@ button:hover,
     gap: 12px;
     padding: 16px 18px;
     border: 1px solid #e6ece8;
-    border-radius: 16px;
+    border-radius: 6px;
     background: #fbfdfc;
 }
 
 .event-details h3 {
     margin: 0 0 4px;
-    font-size: 1.1rem;
+    font-size: 30px;
     color: #173124;
 }
 

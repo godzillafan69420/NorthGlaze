@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 DATABASE = 'database.db'
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = "MyReallySecretKey"
+app.config['SECRET_KEY'] = "plsDon'tHackMe"
 
 
 # creates a login required area

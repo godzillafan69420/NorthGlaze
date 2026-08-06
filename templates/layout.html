@@ -17,10 +17,11 @@
             <nav class="main-nav">
                 <a href="/" class="nav-link">Home</a>
                 <a href="/archived" class="nav-link">Past Events</a>
-                <a href="/edit" class="nav-link">Edit Score</a>
-                <a href="/add_events" class="nav-link">Add Event</a>
+                
 
                 {% if 'user' in session %}
+                    <a href="/edit" class="nav-link">Edit Score</a>
+                    <a href="/add_events" class="nav-link">Add Event</a>
                     <a class="nav-link user-pill">{{ session.get('user').get('username') }}</a>
                     <a href="/logout" class="nav-link">Logout</a>
                     <a href="/change_password" class="nav-link">Change Password</a>
