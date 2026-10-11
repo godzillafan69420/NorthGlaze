@@ -60,7 +60,7 @@ def query_db(query, args=(), one=False):
 
 
 @app.teardown_appcontext
-def close_connection():
+def close_connection(_exception=None):
     """clean up database connection"""
     db = getattr(g, '_database', None)
     if db is not None:
