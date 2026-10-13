@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<form action="{{ url_for('addNewEvent') }}" method="POST">
+<form action="{{ url_for('add_new_event') }}" method="POST">
     
     <label>Event name:</label>
     <input type="text" name="event_name" maxlength="100" class="inputers">

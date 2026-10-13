@@ -241,14 +241,14 @@ def signup():
 
 
 @app.route("/events/<int:id>")
-def event_detail(page_id):
+def event_detail(id):
     """specific event page from id"""
     # query the points and the event data
     event_query = "SELECT name, points, description, time FROM events WHERE id = ?;"
     points = "SELECT south_point, north_point, west_point FROM house_points"
 
     house_point = query_db(points, one=True)
-    event = query_db(event_query, (page_id,), True)
+    event = query_db(event_query, (id,), True)
     # if event doesn't exist then show error
     if event is None:
         return "Event not found", 404
@@ -324,7 +324,7 @@ def add_new_event():
 # getting the specific id of the page and the form
 @app.route("/edit_event/<int:id>", methods=['GET', 'POST'])
 @login_required
-def edit_events(page_id):
+def edit_events(id):
     """Edditing events"""
     points_query = "SELECT south_point, north_point, west_point FROM house_points"
     house_point = query_db(points_query, one=True)
@@ -342,13 +342,13 @@ def edit_events(page_id):
             UPDATE events
             SET name = ?, description = ?, time = ?, points = ?, ended = ?
             WHERE id = ?
-        """, (name, description, date, point, ended, page_id))
+        """, (name, description, date, point, ended, id))
         db.commit()
         return redirect(url_for('home'))
     # getting the data
     event_query = "SELECT * FROM events WHERE id = ?"
-    event = query_db(event_query, [page_id], one=True)
-    return render_template("edit_event.html", event=event, house_points=house_point, id=page_id)
+    event = query_db(event_query, [id], one=True)
+    return render_template("edit_event.html", event=event, house_points=house_point, id=id)
 
 @app.route('/logout')
 def logout():
